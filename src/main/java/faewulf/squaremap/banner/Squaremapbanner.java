@@ -24,7 +24,7 @@ public class Squaremapbanner implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("squaremap-banner");
 
     /** Shown at startup and in /squaremapbanner status, to be sure which build is really running. */
-    public static final String BUILD_STAMP = "debug-1";
+    public static final String BUILD_STAMP = "1.1.0";
 
     public static ModConfigs modConfigs;
 
