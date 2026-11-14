@@ -1,46 +1,71 @@
-# SquareMap Banner Mod
+# SquareMap Banner Reboot
 
-<p align="center" >
-  <img alt="preview" src="https://raw.githubusercontent.com/FaeWulf/squaremap_banner/master/images/preview.png" />
-</p>
+A community-maintained continuation of the original **SquareMap Banner** mod for Minecraft Fabric.
 
-
-A fabric mod that is an extension for the [SquareMap](https://github.com/jpenilla/squaremap) mod for Minecraft Fabric.
-It adds
-additional functionality related to banners within the game. Inspired
-by [squaremap-banners plugins](https://github.com/jpenilla/squaremap-addons/tree/master/addons/banners)
-
-## ✨Features
-
-- **Banner marker**: Sneaking right-click with a named banner while holding a filled map will add that banner to the
-  world map.
-- **Banner Removal**: Sneaking left-click with a named banner while holding a filled map, or breaking the banner, will
-  remove it from the world map.
-- **Area Notification**: Displays a message when entering an area marked by a banner.
+SquareMap Banner Reboot maintains the original functionality while bringing updated Minecraft compatibility and providing a foundation for future improvements.
 
 <p align="center">
-  <img alt="preview_extra" src="https://raw.githubusercontent.com/FaeWulf/squaremap_banner/master/images/preview_extra.png" />
+  <img alt="SquareMap Banner preview" src="images/preview.png" />
 </p>
 
-## ⚙️Configuration
+## Features
+
+- **Banner Markers:** Sneak + right-click with a named banner while holding a filled map to add the banner to the SquareMap world map.
+- **Banner Removal:** Sneak + left-click with a named banner while holding a filled map, or break the banner, to remove its marker from the map.
+- **Area Notifications:** Displays a message when entering an area marked by a banner.
+
+<p align="center">
+  <img alt="Additional preview" src="images/preview_extra.png" />
+</p>
+
+## Compatibility
+
+| Component | Requirement |
+|---|---|
+| Minecraft | 26.3 or newer |
+| Mod Loader | Fabric |
+| Java | 25 or newer |
+| Fabric API | Required |
+| SquareMap | Required |
+
+## Installation
+
+1. Install Fabric Loader for a supported Minecraft version.
+2. Install Fabric API and SquareMap.
+3. Download the latest SquareMap Banner Reboot JAR from [GitHub Releases](https://github.com/KutiFF/squaremap_banner_reboot/releases).
+4. Place the JAR file in your server's `mods` directory.
+
+**Note:** Remove any previous version of SquareMap Banner before installing SquareMap Banner Reboot. Both versions use the same Fabric mod ID.
+
+## Configuration
 
 The mod provides a JSON configuration file with the following options:
 
 - `radius`: Specifies the size of the area declared by the banner.
-- `announce_when_near_banner`: Enable/disable the message when entering the banner's area.
-- `blacklist`: Contains a list of words to prevent from being registered to the world map.
+- `announce_when_near_banner`: Enables or disables notifications when entering a banner's area.
+- `blacklist`: Contains a list of words that should not be registered on the world map.
 
-## ⚠️Mod dependents
+## Permissions
 
-- Squaremap mod itself
-- Fabric API
+- `squaremap.banner.use`: Permission required for players to use the mod's features.
+- Without a permission manager, only players with permission level 1 or higher can use the mod.
 
-## 🪧Permissions
+## Support and Feedback
 
-- **squaremap.banner.use**: Permission required for players to use the features provided by the mod.
-- If non permission manager mod installed, then only players with permission level 1 and above can use the mod.
+Found a bug or have an idea for an improvement?
 
-## 👍Support and Feedback
+Please open an issue in the [GitHub Issue Tracker](https://github.com/KutiFF/squaremap_banner_reboot/issues).
 
-If you encounter any issues or have suggestions for improvement, please feel free to submit an issue on the GitHub
-repository.
+## Credits
+
+- **FaeWulf** – Original creator of SquareMap Banner.
+- **Acuadragon100** – Minecraft 26.1 compatibility update.
+- **KutiFF** – Minecraft 26.3 compatibility, ongoing maintenance and further development.
+
+Original project: [FaeWulf/squaremap_banner](https://github.com/FaeWulf/squaremap_banner)
+
+## License
+
+This project is released under **CC0 1.0 Universal**.
+
+See [LICENSE](LICENSE) for the full license text.
