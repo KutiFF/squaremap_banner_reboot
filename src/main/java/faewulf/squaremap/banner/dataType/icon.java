@@ -1,15 +1,16 @@
 package faewulf.squaremap.banner.dataType;
 
-import faewulf.squaremap.banner.Squaremapbanner;
-import xyz.jpenilla.squaremap.api.Key;
-import xyz.jpenilla.squaremap.api.SquaremapProvider;
-
-import javax.imageio.ImageIO;
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.world.item.DyeColor;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+
+import javax.imageio.ImageIO;
+
+import faewulf.squaremap.banner.Squaremapbanner;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.world.item.DyeColor;
+import xyz.jpenilla.squaremap.api.Key;
+import xyz.jpenilla.squaremap.api.SquaremapProvider;
 
 
 public class icon {
@@ -58,6 +59,14 @@ public class icon {
             case YELLOW -> YELLOW;
             default -> WHITE;
         };
+    }
+
+    public static DyeColor toDye(Key key) {
+        try {
+            return DyeColor.valueOf(key.getKey());
+        } catch (IllegalArgumentException e) {
+            return DyeColor.WHITE;
+        }
     }
 
     private static BufferedImage getBufferImage(String resourcePath) {

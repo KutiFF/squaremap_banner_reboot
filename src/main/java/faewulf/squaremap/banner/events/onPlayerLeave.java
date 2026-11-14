@@ -1,20 +1,21 @@
 package faewulf.squaremap.banner.events;
 
 import faewulf.squaremap.banner.modules.bannerTitle;
+import faewulf.squaremap.banner.utils.RegisterCooldown;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.minecraft.server.level.ServerPlayer;
+
+import java.util.UUID;
 
 import static faewulf.squaremap.banner.Squaremapbanner.modConfigs;
 
 public class onPlayerLeave {
     public static void load() {
-        if (modConfigs.bannerEnterAnnouncer)
-            ServerPlayConnectionEvents.DISCONNECT.register(((handler, server) -> {
-                ServerPlayer player = handler.getPlayer();
+        //always registered: announce_when_near_banner can be switched on later with /squaremapbanner reload
+        ServerPlayConnectionEvents.DISCONNECT.register(((handler, server) -> {
+            UUID id = handler.getPlayer().getUUID();
 
-                if (bannerTitle.playerList.containsKey(player)) {
-                    bannerTitle.playerList.put(player, null);
-                }
-            }));
+            bannerTitle.forget(id);
+            RegisterCooldown.forgetIfExpired(id, modConfigs.registerCooldownSeconds * 1000L);
+        }));
     }
 }

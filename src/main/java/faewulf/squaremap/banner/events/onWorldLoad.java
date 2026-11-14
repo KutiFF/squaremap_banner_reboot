@@ -1,5 +1,6 @@
 package faewulf.squaremap.banner.events;
 
+import faewulf.squaremap.banner.utils.DebugLog;
 import faewulf.squaremap.banner.utils.bannerManager;
 import faewulf.squaremap.banner.utils.world;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLevelEvents;
@@ -15,29 +16,36 @@ public class onWorldLoad {
 
                     //get world id: example minecraft:the_end
                     String worldKey = world_.dimension().identifier().toString();
+                    DebugLog.log("ServerLevelEvents.LOAD: " + worldKey);
 
-                    //get sqrmap api
-                    Squaremap api = SquaremapProvider.get();
+                    try {
+                        //get sqrmap api
+                        Squaremap api = SquaremapProvider.get();
 
-                    //get mapworld based on id
-                    api.getWorldIfEnabled(WorldIdentifier.parse(worldKey)).ifPresent(mapWorld -> {
+                        //get mapworld based on id
+                        api.getWorldIfEnabled(WorldIdentifier.parse(worldKey)).ifPresentOrElse(mapWorld -> {
 
-                        //create new world obj
-                        world worldObj = new world(mapWorld.identifier().asString());
+                            //create new world obj
+                            world worldObj = new world(mapWorld.identifier().asString());
 
-                        SimpleLayerProvider provider = SimpleLayerProvider.builder("Banner")
-                                .showControls(true)
-                                .defaultHidden(false)
-                                .layerPriority(5)
-                                .zIndex(250)
-                                .build();
+                            SimpleLayerProvider provider = SimpleLayerProvider.builder("Banner")
+                                    .showControls(true)
+                                    .defaultHidden(false)
+                                    .layerPriority(5)
+                                    .zIndex(250)
+                                    .build();
 
-                        //set provider
-                        worldObj.setProvider(provider, "banner_" + mapWorld.identifier().namespace());
+                            //set provider
+                            worldObj.setProvider(provider, "banner_" + mapWorld.identifier().namespace());
 
-                        //then put into manager
-                        bannerManager.bannerManager.put(worldKey, worldObj);
-                    });
+                            //then put into manager
+                            bannerManager.bannerManager.put(worldKey, worldObj);
+                            DebugLog.log("  -> tracked " + worldKey + " (squaremap world " + mapWorld.identifier().asString() + ")");
+                        }, () -> DebugLog.log("  -> NOT tracked: squaremap has no enabled world for " + worldKey));
+                    } catch (RuntimeException e) {
+                        DebugLog.error("  -> failed while registering " + worldKey, e);
+                        throw e;
+                    }
                 }
         );
     }

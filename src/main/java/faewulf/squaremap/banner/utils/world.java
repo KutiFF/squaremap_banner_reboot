@@ -7,6 +7,7 @@ import xyz.jpenilla.squaremap.api.*;
 import xyz.jpenilla.squaremap.api.marker.Icon;
 import xyz.jpenilla.squaremap.api.marker.Marker;
 import xyz.jpenilla.squaremap.api.marker.MarkerOptions;
+import java.util.UUID;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +41,11 @@ public class world {
         return null;
     }
 
-    public void addBanner(Position pos, Key keyIconType, String name, Key key) {
+    public String getIdentifier() {
+        return identifier;
+    }
+    
+    public void addBanner(Position pos, Key keyIconType, String name, Key key, UUID owner, String ownerName) {
         //check if pos already has a banner
         //then delete it and add the new one (aka update)
         if (data.containsKey(pos)) {
@@ -56,7 +61,7 @@ public class world {
         icon.markerOptions(MarkerOptions.builder().hoverTooltip(name));
 
         this.getProvider().addMarker(key, icon);
-        this.data.put(pos, new Data(icon, keyIconType, name, key));
+        this.data.put(pos, new Data(icon, keyIconType, name, key, owner, ownerName));
     }
 
     public void removeBanner(Position pos) {
