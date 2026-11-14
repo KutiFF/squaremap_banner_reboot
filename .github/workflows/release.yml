@@ -1,0 +1,70 @@
+
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup Java 25
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '25'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Build mod
+        run: ./gradlew --no-daemon build
+
+      - name: Prepare release JAR
+        shell: bash
+        run: |
+          mkdir -p dist
+          shopt -s nullglob
+
+          jars=(build/libs/*.jar)
+          distributable=()
+
+          for jar in "${jars[@]}"; do
+            case "$jar" in
+              *-sources.jar|*-dev*.jar)
+                continue
+                ;;
+              *)
+                distributable+=("$jar")
+                ;;
+            esac
+          done
+
+          if [[ "${#distributable[@]}" -ne 1 ]]; then
+            echo "::error::Expected exactly one distributable JAR."
+            printf '%s\n' "${distributable[@]}"
+            exit 1
+          fi
+
+          cp "${distributable[0]}" dist/
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/*.jar \
+            --title "SquareMap Banner $GITHUB_REF_NAME" \
+            --generate-notes \
+            --verify-tag
